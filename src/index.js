@@ -36,8 +36,8 @@ app.use(cors({
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 1 * 60 * 1000, // 1 minutes
+  max: 200, // limit each IP to 200 requests per windowMs
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use('/api', limiter);
@@ -45,7 +45,7 @@ app.use('/api', limiter);
 // Auth rate limiting (stricter)
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 100,
   message: 'Too many authentication attempts, please try again later.'
 });
 app.use('/api/v1/auth', authLimiter);
@@ -77,6 +77,7 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🔗 API Base URL: http://localhost:${PORT}/api/v1`);
   console.log(`📊 Premium Hub API v1.0.0`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
